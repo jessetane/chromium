@@ -600,7 +600,7 @@ void DevToolsHttpHandler::OnJsonRequest(
       url = GURL(url::kAboutBlankURL);
     std::unique_ptr<DevToolsTargetDescriptor> descriptor =
         devtools_discovery::DevToolsDiscoveryManager::GetInstance()->CreateNew(
-            url);
+            url, target_id);
     if (!descriptor) {
       SendJson(connection_id,
                net::HTTP_INTERNAL_SERVER_ERROR,

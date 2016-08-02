@@ -27,7 +27,8 @@ class DevToolsDiscoveryManager {
 
   using CreateCallback =
       base::Callback<std::unique_ptr<DevToolsTargetDescriptor>(
-          const GURL& url)>;
+          const GURL& url,
+          const std::string& profile_dir)>;
 
   // Returns single instance of this class. The instance is destroyed on the
   // browser main loop exit so this method MUST NOT be called after that point.
@@ -38,7 +39,7 @@ class DevToolsDiscoveryManager {
 
   // Caller takes ownership of created descriptors.
   DevToolsTargetDescriptor::List GetDescriptors();
-  std::unique_ptr<DevToolsTargetDescriptor> CreateNew(const GURL& url);
+  std::unique_ptr<DevToolsTargetDescriptor> CreateNew(const GURL& url, const std::string& profile_dir);
 
   // Handles Browser.newPage only.
   std::unique_ptr<base::DictionaryValue> HandleNewTargetCommand(

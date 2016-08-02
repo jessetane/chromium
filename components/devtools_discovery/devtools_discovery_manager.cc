@@ -46,10 +46,11 @@ void DevToolsDiscoveryManager::SetCreateCallback(
 }
 
 std::unique_ptr<DevToolsTargetDescriptor> DevToolsDiscoveryManager::CreateNew(
-    const GURL& url) {
+    const GURL& url,
+    const std::string& profile_dir) {
   if (create_callback_.is_null())
     return nullptr;
-  return create_callback_.Run(url);
+  return create_callback_.Run(url, profile_dir);
 }
 
 DevToolsTargetDescriptor::List
@@ -68,6 +69,7 @@ DevToolsDiscoveryManager::HandleNewTargetCommand(
   int id;
   std::string method;
   std::string url;
+  std::string profile_dir;
   const base::DictionaryValue* params_dict = nullptr;
   if (command_dict->GetInteger("id", &id) &&
       command_dict->GetString("method", &method) &&
@@ -75,7 +77,7 @@ DevToolsDiscoveryManager::HandleNewTargetCommand(
       command_dict->GetDictionary("params", &params_dict) &&
       params_dict->GetString("url", &url)) {
     std::unique_ptr<devtools_discovery::DevToolsTargetDescriptor> descriptor =
-        CreateNew(GURL(url));
+        CreateNew(GURL(url), profile_dir);
     if (!descriptor)
       return nullptr;
     std::unique_ptr<base::DictionaryValue> result(new base::DictionaryValue());

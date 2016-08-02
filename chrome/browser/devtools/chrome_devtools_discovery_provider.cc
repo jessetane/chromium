@@ -4,7 +4,9 @@
 
 #include "chrome/browser/devtools/chrome_devtools_discovery_provider.h"
 
+#include "base/files/file_path.h"
 #include "base/memory/ptr_util.h"
+#include "chrome/browser/browser_process.h"
 #include "chrome/browser/devtools/devtools_target_impl.h"
 #include "chrome/browser/profiles/profile_manager.h"
 #include "chrome/browser/ui/browser_navigator.h"
@@ -13,8 +15,17 @@
 namespace {
 
 std::unique_ptr<devtools_discovery::DevToolsTargetDescriptor>
-CreateNewChromeTab(const GURL& url) {
-  chrome::NavigateParams params(ProfileManager::GetLastUsedProfile(),
+CreateNewChromeTab(const GURL& url, const std::string& profile_dir) {
+  Profile* profile = NULL;
+  if (profile_dir.empty()) {
+    profile = ProfileManager::GetLastUsedProfile();
+  } else {
+    base::ThreadRestrictions::SetIOAllowed(true);
+    base::FilePath profile_path = base::FilePath(FILE_PATH_LITERAL("/tmp/chromium-profiles"));
+    profile = g_browser_process->profile_manager()->GetProfile(
+      profile_path.Append(FILE_PATH_LITERAL(profile_dir)));
+  }
+  chrome::NavigateParams params(profile,
       url, ui::PAGE_TRANSITION_AUTO_TOPLEVEL);
   params.disposition = NEW_FOREGROUND_TAB;
   chrome::Navigate(&params);
