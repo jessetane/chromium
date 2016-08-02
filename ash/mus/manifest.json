@@ -1,0 +1,19 @@
+{
+  "manifest_version":  1,
+  "name": "mojo:ash",
+  "display_name": "Ash Window Manager and Shell",
+  "capabilities": {
+    "provided": {
+      "mus:window_manager" : [ "ui::mojom::AcceleratorRegistrar" ]
+    },
+    "required": {
+      "*": { "classes": [ "accessibility", "app" ] },
+      "mojo:ui": {
+        "interfaces": [
+          "ui::mojom::AccessibilityManager",
+          "ui::mojom::WindowManagerWindowTreeFactory"
+        ]
+      }
+    }
+  }
+}

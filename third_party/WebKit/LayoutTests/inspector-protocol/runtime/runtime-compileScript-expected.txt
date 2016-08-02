@@ -1,0 +1,22 @@
+{
+    exceptionDetails : {
+        columnNumber : 2
+        lineNumber : 1
+        scriptId : 0
+        text : Uncaught SyntaxError: Unexpected end of input
+    }
+}
+{
+    scriptId : 0
+}
+{
+}
+{
+    exceptionDetails : {
+        columnNumber : 13
+        lineNumber : 0
+        scriptId : 0
+        text : Uncaught SyntaxError: Unexpected identifier
+    }
+}
+

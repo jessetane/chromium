@@ -1,0 +1,41 @@
+# Copyright 2016 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//testing/test.gni")
+
+static_library("mac_installer_base") {
+  sources = [
+    "Downloader.m",
+    "MainDelegate.m",
+    "NetworkCommunication.m",
+    "OmahaCommunication.m",
+    "OmahaXMLParser.m",
+    "OmahaXMLRequest.m",
+    "SystemInfo.m",
+  ]
+}
+
+executable("mac_installer") {
+  sources = [
+    "main.m",
+  ]
+  deps = [
+    ":mac_installer_base",
+  ]
+  libs = [ "Foundation.framework" ]
+}
+
+test("mac_installer_test") {
+  sources = [
+    "testing/OmahaXMLRequest_test.mm",
+    "testing/SystemInfo_test.mm",
+  ]
+  deps = [
+    ":mac_installer_base",
+    "//base:base",
+    "//base/test:run_all_unittests",
+    "//testing/gtest:gtest",
+  ]
+  libs = [ "Foundation.framework" ]
+}
